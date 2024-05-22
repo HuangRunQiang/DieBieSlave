@@ -1,9 +1,9 @@
 DieBieSlave - Hardware
 ===
 # Introduction
-During my work at the University of Twente at the faculty of Biomechanical Engineering I gained interest in EtherCAT and its applications. I learned that many of the projects at this faculty (and other faculties in the field of robotics) desire a custom coupling between a unique sensor and EtherCAT, a coupling that is not always easy to realise with the existing slaves. During my work I helped designing an EtherCAT slave based on the ET1100, this ASIC comes in a BGA package, needs two external ethernet phy's and lots of passive components. The ET1100 is more than capable of coupling all desired applications to EtherCAT however in some applications it's to cumbersome to implement knowing that the LAN9252 can do almost the same and has the ASIC + 2 Phy's intergrated in one QFN package. 
+在特文特大学生物力学工程学院的工作期间，我对EtherCAT及其应用产生了兴趣。我了解到，该学院的许多项目（以及其他机器人学领域的学院）都希望在独特的传感器和EtherCAT之间实现自定义的耦合，而现有的从站并不总是容易实现这种耦合。在我的工作中，我帮助设计了一款基于ET1100的EtherCAT从站，该ASIC采用BGA封装，需要两个外部以太网PHY和大量被动元件。ET1100完全能够将所有所需的应用与EtherCAT进行耦合，但在某些应用中，实施起来过于繁琐，因为知道LAN9252几乎可以完成相同的任务，并且将ASIC和2个PHY集成在一个QFN封装中。
 
-Knowing about the existence of the LAN9252 and hearing the need for a "sensor <--> EtherCAT" interface motivated me to design the project presented here; the DieBieSlave, a universal EtherCAT slave that is able to couple 'any' I2C, SPI, UART, analog, digital or CAN based sensor to EtherCAT. The idea is that the DieBieSlave is universal for any sensor application and has all the 'complex' EtherCAT, power supply and microcontroller hardware on one PCB whilst the only thing that differs per sensor implementation is a cheap and simple daughter board. Every sensor of course needs its unique code to initialise and sample the sensor. 
+了解到LAN9252的存在，并听说需要一个“传感器<--> EtherCAT”接口的需求，激发了我设计这个项目的动力；DieBieSlave，一个通用的EtherCAT从站，能够将任何基于I2C、SPI、UART、模拟、数字或CAN的传感器与EtherCAT进行耦合。DieBieSlave的理念是，它对于任何传感器应用都是通用的，而且在一个PCB上集成了所有“复杂”的EtherCAT、电源和微控制器硬件，唯一与每个传感器实现不同的是一个便宜而简单的子板。当然，每个传感器都需要其独特的代码来初始化和采样传感器。
 
 The DieBieSlave looks like this:
 ![alt text](Binaries/Images/DieBieSlaveV0_2TOP0.png "DieBieSlave V0.2 TopView")
@@ -11,85 +11,84 @@ The DieBieSlave looks like this:
 ![alt text](Binaries/Images/DieBieSlaveV0_2TOP1.png "DieBieSlave V0.2 TopView")
 ![alt text](Binaries/Images/DieBieSlaveV0_2BOT1.png "DieBieSlave V0.2 TopView")
 
-On the topside you can see:
-* DC (10-30V) power input jack.
-* EtherCAT input/output connectors 
-* EtherCAT, power and software status LEDs
-* BOOT0 HW serial bootloader enable button
+顶部功能：
+* 直流（10-30V）电源输入插孔。
+* EtherCAT 输入/输出连接器。
+* EtherCAT、电源和软件状态 LED 指示灯。
+* BOOT0 硬件串行引导启用按钮。
 
-On the bottom:
-* Micro USB connector that is connected to the HW serial UART1 for general serial communication and HW Bootloader
-* Micro USB connector that is connected to the HW USB peripheral of the STM32F303RET6
-* 7Pin picoblade debug connector that is connected to the SWD and UART2 peripheral of the STM32F303RET6.
+底部功能：
+* 微型 USB 连接器，连接到 STM32F303RET6 的硬件串行 UART1，用于一般串行通信和硬件引导程序。
+* 微型 USB 连接器，连接到 STM32F303RET6 的硬件 USB 外围设备。
+* 7Pin picoblade 调试连接器，连接到 STM32F303RET6 的 SWD 和 UART2 外围设备。
 
-Both sides:
-The holes on both edges of the DieBieSlave interface to all exposed (I2C, SPI, UART, analog, digital and CAN) peripherals on the STM32F303RET6 and should be connected to the desired target sensor. Standard 2.54mm headers can be soldered to both sides of the DieBieSlave allowing the use of standard 2.54mm male/female headers to connect standaard prototype board to either the small area on top or the full area on the bottom (realising either a compact or extensive interface). The board connected to the pin on te side that interfaces to a sensor is called a daughter board.
+两侧功能：
+DieBieSlave 接口两侧的孔连接到 STM32F303RET6 上所有暴露的（I2C、SPI、UART、模拟、数字和 CAN）外围设备，并应连接到所需的目标传感器。标准的 2.54 毫米排针可以焊接到 DieBieSlave 的两侧，从而可以使用标准的 2.54 毫米公头/母头连接器将标准原型板连接到顶部的小区域或底部的整个区域（实现紧凑或全面的接口）。连接到与传感器接口的一侧的板称为子板。
 
-More details can be found in the schematic [here](/Project%20Outputs%20for%20DB10012_UniversalSlave/DB10012_DieBieSlave.PDF).
+更多细节可以在原理图中找到。 [here](/Project%20Outputs%20for%20DB10012_UniversalSlave/DB10012_DieBieSlave.PDF).
 
-### Latest hardware release (production files)
+### 最新硬件发布（生产文件）
 
-* V0.1 Initial hardware
-   This version has the following bug:
-   * The INT pint of the LAN9252 was incorrectly connected to PC5 (cannot be muxed to INT input when I2C INT input also used) but should have been connected to PB0 (allows INT functionality at all times). This bug is fixxed in V0.2.
-   
-* V0.2 Fixed version of V0.1 with added functionality (current version)
-   This version has some added functionality:
-   * The DC-DC power input 10-30V is also routed to the header pins, now the DieBieSlave can be powered by the daughter board if desired.
-   
-Production data for most recent version can be found [here](Project%20Outputs%20for%20DB10012_UniversalSlave). And the schematic in PDF [here](DB10012_UniversalSlave.PDF).
+* V0.1 初始硬件
+   该版本存在以下错误：
+   * LAN9252 的 INT 引脚被错误地连接到了 PC5（当 I2C INT 输入也被使用时无法切换到 INT 输入），但应该连接到 PB0（可以始终使用 INT 功能）。这个问题在 V0.2 中已修复。
 
-### Features
-The DieBieSlave is designed in such a way that it is easy to manufacture and has a relatively small footprint (by a professional). The implementation of a daughter board is completely up to the user. The DieBieSlave PCB has the following features:
+* V0.2 V0.1的修复版本，并增加功能（当前版本）
+   该版本增加了一些功能：
+   * 直流-直流电源输入 10-30V 也路由到了引脚头，现在如果需要，DieBieSlave 可以由子板供电。
 
-* Power LED on both sides of the PCB.
-* EtherCAT RUN LED on both sides of the PCB.
-* Sofware status LED on both sides of the PCB connected to pin PB15.
-* DC input range of 10-30V (possibly broader but untested) allowing simple implementation in 12V and 24V systems.
-* Onboard +5V and +3V3 SMPS power supplies that are exposed to the daughter board header.
-* Large powerful microcontroller with DSP and FPU STM32F303RET6 (cortex-M4 512Kbytes flash and 64Kbyte SRAM).
-* RJ45 EtherCAT in and output connectors.
-* LAN9252 QFN based EtherCAT ASIC.
+最新版本的生产数据可以在[这里](Project%20Outputs%20for%20DB10012_UniversalSlave)找到。PDF 格式的原理图可以在[这里](DB10012_UniversalSlave.PDF)找到。
 
-### Electrical specifications
-* DC input power range 10-30V reverse polarisation protected
-* The +5V power supply can deliver up to 400mA
-* The +3V3 power supply  can deliver up to 200mA
+### 特点
+DieBieSlave 的设计使其易于制造，并具有相对较小的占地面积（由专业人士设计）。是否实现一个子板完全取决于用户。DieBieSlave PCB 具有以下功能：
 
-# Realisation
-As stated in the introduction the DieBieSlave is a universal EtherCAT slave implementation that will always need a daughter board supplying the DieBieSlave with information that should be put on the BUS. An example DieBieSlave and daughter board implementation is given here:
-![alt text](Binaries/Images/DieBieSlave_V0_2_07.jpg "Daughter board and DieBieSlave separated")
-![alt text](Binaries/Images/DieBieSlave_V0_2_08.jpg "Daughter board and DieBieSlave connected")
-As seen the daughter board can be anything from standard perforated prototype board up to a custom designed board carrying the sensor. 
+* PCB 两侧均设有电源指示灯。
+* PCB 两侧均设有 EtherCAT 运行指示灯。
+* 软件状态指示灯连接到引脚 PB15，位于 PCB 两侧。
+* 直流输入范围为 10-30V（可能更广，但未经测试），可简单应用于12V和24V系统。
+* 板载 +5V 和 +3V3 开关电源，可供子板头使用。
+* 配备强大的微控制器，带有 DSP 和 FPU，STM32F303RET6（cortex-M4，512K字节闪存和64K字节静态随机存取存储器）。
+* RJ45 EtherCAT 输入和输出连接器。
+* 基于 QFN 封装的 LAN9252 EtherCAT ASIC。
 
+### 电气规格
+* 直流输入电源范围为 10-30V，具有反极性保护。
+* +5V 电源可提供高达 400mA 输出电流。
+* +3V3 电源可提供高达 200mA 输出电流。
+
+# 实现
+正如介绍中所述，DieBieSlave 是一个通用的 EtherCAT 从站实现，始终需要一个子板向 DieBieSlave 提供应该放在总线上的信息。以下是一个 DieBieSlave 和子板的示例实现：
+![alt text](Binaries/Images/DieBieSlave_V0_2_07.jpg "分离的子板和DieBieSlave")
+![alt text](Binaries/Images/DieBieSlave_V0_2_08.jpg "连接的子板和DieBieSlave")
+如图所示，子板可以是标准的穿孔原型板，也可以是携带传感器的定制设计板。
 #### LAN9252 vs ET1100
-Altrough the LAN9252 seems a perfect replacement for the ET1100 with its two embedded phy's, the QFN package and its low amount of external components it has a big drawback on the software side. Whilst the ET1100 has a transparant interface to its internal RAM over SPI the LAN9252 has not and needs some form of adres translation that prevents large chunks of (PDO) data to be written in a single block, this prevents the use of DMA syncing between uC and LAN9252. The only alternative is rather software labour intensive (the adres translation needs to be done in software) compared to its DMA alternative. This is no deal breaker for sensor acquisition (sensors need very little processor power) but will be a drawback in realtime systems like motor controllers.
+尽管 LAN9252 似乎是 ET1100 的完美替代品，具有两个内置的 PHY、QFN 封装和少量外部元件，但在软件方面存在一个重大缺陷。虽然 ET1100 通过 SPI 具有对其内部 RAM 的透明接口，而 LAN9252 没有，需要某种形式的地址转换，这会阻止大块（PDO）数据被一次性写入，这阻止了在微控制器和 LAN9252 之间进行 DMA 同步的使用。唯一的替代方案是相对耗费软件资源（地址转换需要在软件中完成），与其 DMA 替代方案相比，这需要更多的软件工作量。对于传感器采集来说这并不是致命问题（传感器需要非常少的处理器性能），但在像电机控制器这样的实时系统中将是一个缺点。
 
-#### Used technology
-The IC's used with their corresponding functionality:
-* STM32F303RET6 -> Main microcontroller.
-* LAN9252/ML -> EtherCAT slave controller with build-in phy's.
-* M24C16-WMN6P -> EEPROM for LAN9252
-* LM25011MY/NOPB -> DC power input to +5V converter.
-* LMR10510XMFE/NOPB -> +5V to +3V3 converter.
-* 74980111211 -> RJ45 connectors with integrated magnetics.
-* CP2104-F03-GM -> USB serial converter for bootloader and general serial communication.
+#### 使用的技术
+使用的集成电路及其相应功能：
+* STM32F303RET6 -> 主微控制器。
+* LAN9252/ML -> 带有内置 PHY 的EtherCAT 从站控制器。
+* M24C16-WMN6P -> 用于 LAN9252 的 EEPROM。
+* LM25011MY/NOPB -> 直流电源输入到 +5V 转换器。
+* LMR10510XMFE/NOPB -> +5V 到 +3V3 转换器。
+* 74980111211 -> 带有集成磁性元件的 RJ45 连接器。
+* CP2104-F03-GM -> 用于引导加载程序和一般串行通信的 USB 串行转换器。
 
-![alt text](Binaries/Images/DieBieSlave_V0_2_06.jpg "DieBieSlave V0.2 Dual PCB picture")
-![alt text](Binaries/Images/DieBieSlave_V0_2_02.jpg "DieBieSlave V0.2 Bottom overview")
-![alt text](Binaries/Images/DieBieSlave_V0_2_03.jpg "DieBieSlave V0.2 Top overview")
-![alt text](Binaries/Images/DieBieSlave_V0_2_04.jpg "DieBieSlave V0.2 Bottom component overview")
-![alt text](Binaries/Images/DieBieSlave_V0_2_05.jpg "DieBieSlave V0.2 Bottom component overview")
+![alt text](Binaries/Images/DieBieSlave_V0_2_06.jpg "DieBieSlave V0.2 双层 PCB 图片")
+![alt text](Binaries/Images/DieBieSlave_V0_2_02.jpg "DieBieSlave V0.2 底部概览")
+![alt text](Binaries/Images/DieBieSlave_V0_2_03.jpg "DieBieSlave V0.2 顶部概览")
+![alt text](Binaries/Images/DieBieSlave_V0_2_04.jpg "DieBieSlave V0.2 底部元件概览")
+![alt text](Binaries/Images/DieBieSlave_V0_2_05.jpg "DieBieSlave V0.2 底部元件概览")
 
-# Example usage
-#### MPU9250/NunChuck to EtherCAT
-Interfacing a Nun-chuck controller and MPU9250 sensors with EtherCAT:
+# 示例用法
+#### 将 MPU9250/NunChuck 连接到 EtherCAT
+将 Nun-chuck 控制器和 MPU9250 传感器与 EtherCAT 进行接口连接：
 
 [![VIDEO01](http://img.youtube.com/vi/i7gFqLQb0EA/0.jpg)](http://www.youtube.com/watch?v=i7gFqLQb0EA)
 
-#### More pictures
-![alt text](Binaries/Images/DieBieSlave_V0_2_09.jpg "NunChuck slave and dual MPU9250 slave")
-![alt text](Binaries/Images/DieBieSlave_V0_2_10.jpg "NunChuck slave and dual MPU9250 slave")
-![alt text](Binaries/Images/DieBieSlave_V0_2_11.jpg "View of a Shield example")
-![alt text](Binaries/Images/DieBieSlave_V0_2TwinCAT_01.png "TwinCAT screenshot of both slave examples connected")
-![alt text](Binaries/Images/DieBieSlave_V0_2SlaveEditor_01.png "Slave editor view of the SOES configuration")
+#### 更多图片
+![alt text](Binaries/Images/DieBieSlave_V0_2_09.jpg "NunChuck 从站和双 MPU9250 从站")
+![alt text](Binaries/Images/DieBieSlave_V0_2_10.jpg "NunChuck 从站和双 MPU9250 从站")
+![alt text](Binaries/Images/DieBieSlave_V0_2_11.jpg "一个 Shield 示例的视图")
+![alt text](Binaries/Images/DieBieSlave_V0_2TwinCAT_01.png "TwinCAT 中连接的两个从站示例的截图")
+![alt text](Binaries/Images/DieBieSlave_V0_2SlaveEditor_01.png "SOES 配置的从站编辑器视图")
