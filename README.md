@@ -11,19 +11,20 @@ The DieBieSlave looks like this:
 ![alt text](Binaries/Images/DieBieSlaveV0_2TOP1.png "DieBieSlave V0.2 TopView")
 ![alt text](Binaries/Images/DieBieSlaveV0_2BOT1.png "DieBieSlave V0.2 TopView")
 
-顶部功能：
-* 直流（10-30V）电源输入插孔。
-* EtherCAT 输入/输出连接器。
-* EtherCAT、电源和软件状态 LED 指示灯。
-* BOOT0 硬件串行引导启用按钮。
+顶部设有：
 
-底部功能：
-* 微型 USB 连接器，连接到 STM32F303RET6 的硬件串行 UART1，用于一般串行通信和硬件引导程序。
-* 微型 USB 连接器，连接到 STM32F303RET6 的硬件 USB 外围设备。
-* 7Pin picoblade 调试连接器，连接到 STM32F303RET6 的 SWD 和 UART2 外围设备。
+    直流（10-30V）电源输入插孔。
+    EtherCAT 输入/输出连接器
+    EtherCAT、电源和软件状态LED指示灯
+    BOOT0硬件串行引导加载器启用按钮
 
-两侧功能：
-DieBieSlave 接口两侧的孔连接到 STM32F303RET6 上所有暴露的（I2C、SPI、UART、模拟、数字和 CAN）外围设备，并应连接到所需的目标传感器。标准的 2.54 毫米排针可以焊接到 DieBieSlave 的两侧，从而可以使用标准的 2.54 毫米公头/母头连接器将标准原型板连接到顶部的小区域或底部的整个区域（实现紧凑或全面的接口）。连接到与传感器接口的一侧的板称为子板。
+底部设有：
+
+    微型USB连接器，连接到STM32F303RET6的硬件串行UART1，用于一般串行通信和硬件引导加载器
+    微型USB连接器，连接到STM32F303RET6的硬件USB外围设备
+    7Pin picoblade调试连接器，连接到STM32F303RET6的SWD和UART2外围设备。
+
+两侧：DieBieSlave的两侧都有孔，用于连接到STM32F303RET6上所有暴露的（I2C、SPI、UART、模拟、数字和CAN）外围设备，并应连接到所需的目标传感器。DieBieSlave的两侧都可以焊接标准的2.54mm排针，从而可以使用标准的2.54mm公/母排针将标准原型板连接到顶部的小区域或底部的整个区域（实现紧凑或广泛的接口）。连接到与传感器接口的侧面的板称为子板。
 
 更多细节可以在原理图中找到。 [here](/Project%20Outputs%20for%20DB10012_UniversalSlave/DB10012_DieBieSlave.PDF).
 
