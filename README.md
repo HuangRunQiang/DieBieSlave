@@ -3,7 +3,7 @@ DieBieSlave - Hardware
 # Introduction
 在特文特大学生物力学工程学院的工作期间，我对EtherCAT及其应用产生了兴趣。我了解到，该学院的许多项目（以及其他机器人学领域的学院）都希望在独特的传感器和EtherCAT之间实现自定义的耦合，而现有的从站并不总是容易实现这种耦合。在我的工作中，我帮助设计了一款基于ET1100的EtherCAT从站，该ASIC采用BGA封装，需要两个外部以太网PHY和大量被动元件。ET1100完全能够将所有所需的应用与EtherCAT进行耦合，但在某些应用中，实施起来过于繁琐，因为知道LAN9252几乎可以完成相同的任务，并且将ASIC和2个PHY集成在一个QFN封装中。
 
-了解到LAN9252的存在，并听说需要一个“传感器<--> EtherCAT”接口的需求，激发了我设计这个项目的动力；DieBieSlave，一个通用的EtherCAT从站，能够将任何基于I2C、SPI、UART、模拟、数字或CAN的传感器与EtherCAT进行耦合。DieBieSlave的理念是，它对于任何传感器应用都是通用的，而且在一个PCB上集成了所有“复杂”的EtherCAT、电源和微控制器硬件，唯一与每个传感器实现不同的是一个便宜而简单的子板。当然，每个传感器都需要其独特的代码来初始化和采样传感器。
+得知LAN9252的存在，并听到需要一个“传感器 <--> EtherCAT”接口的需求，激发了我设计这个项目的动力; DieBieSlave，一个通用的EtherCAT从站，能够将“任何”基于I2C、SPI、UART、模拟、数字或CAN的传感器与EtherCAT相连。这个想法是，DieBieSlave对于任何传感器应用都是通用的，只需在一个PCB上具备所有“复杂”的EtherCAT、电源和微控制器硬件，而每个传感器实现唯一不同的是一个廉价且简单的子板。当然，每个传感器都需要其独特的代码来初始化和采样传感器。
 
 The DieBieSlave looks like this:
 ![alt text](Binaries/Images/DieBieSlaveV0_2TOP0.png "DieBieSlave V0.2 TopView")
