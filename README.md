@@ -22,7 +22,7 @@ The DieBieSlave looks like this:
 
     微型USB连接器，连接到STM32F303RET6的硬件串行UART1，用于一般串行通信和硬件引导加载器
     微型USB连接器，连接到STM32F303RET6的硬件USB外围设备
-    7Pin picoblade调试连接器，连接到STM32F303RET6的SWD和UART2外围设备。
+    7Pin picoblade调试连接器，连接到STM32F303RET6的SWD和UART1外围设备。
 
 两侧：DieBieSlave的两侧都有孔，用于连接到STM32F303RET6上所有暴露的（I2C、SPI、UART、模拟、数字和CAN）外围设备，并应连接到所需的目标传感器。DieBieSlave的两侧都可以焊接标准的2.54mm排针，从而可以使用标准的2.54mm公/母排针将标准原型板连接到顶部的小区域或底部的整个区域（实现紧凑或广泛的接口）。连接到与传感器接口的侧面的板称为子板。
 
